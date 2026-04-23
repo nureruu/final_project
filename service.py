@@ -20,12 +20,10 @@ class UniversityService:
         self.departments = DepartmentRepository()
         self._id_counters = {"S": 1000, "P": 200, "C": 300, "D": 10, "A": 500}
 
-    # ── ID generation ──────────────────────────────────────────────────────
     def _next_id(self, prefix: str) -> str:
         self._id_counters[prefix] += 1
         return f"{prefix}{self._id_counters[prefix]}"
 
-    # ── Student operations ─────────────────────────────────────────────────
     def add_student(self, first_name: str, last_name: str, email: str,
                     age: int, major: str, year: int) -> Student:
         sid = self._next_id("S")
@@ -35,7 +33,7 @@ class UniversityService:
 
     def remove_student(self, student_id: str) -> str:
         student = self.students.remove(student_id)
-        # Remove from all enrolled courses
+
         for course in student.enrolled_courses:
             try:
                 course.remove_student(student_id)
@@ -50,7 +48,7 @@ class UniversityService:
         course = self.courses.find_by_id(course_id)
         if course is None:
             raise ValueError(f"Course '{course_id}' not found.")
-        # Bidirectional relationship: Student ↔ Course
+
         student.enroll(course)
         course.add_student(student)
 
@@ -70,7 +68,6 @@ class UniversityService:
             raise ValueError(f"Student '{student_id}' not found.")
         student.assign_grade(course_id, grade)
 
-    # ── Professor operations ───────────────────────────────────────────────
     def add_professor(self, first_name: str, last_name: str, email: str,
                       age: int, department: str, title: str = "Professor") -> Professor:
         pid = self._next_id("P")
@@ -89,11 +86,10 @@ class UniversityService:
         course = self.courses.find_by_id(course_id)
         if course is None:
             raise ValueError(f"Course '{course_id}' not found.")
-        # Professor ↔ Course relationship
+
         course.professor = prof
         prof.assign_course(course)
 
-    # ── Course operations ──────────────────────────────────────────────────
     def add_course(self, title: str, credits: int, department: str) -> Course:
         cid = self._next_id("C")
         course = Course(cid, title, credits, department)
@@ -111,7 +107,6 @@ class UniversityService:
         course = self.courses.remove(course_id)
         return course.title
 
-    # ── Department operations ──────────────────────────────────────────────
     def add_department(self, name: str, faculty: str) -> Department:
         did = self._next_id("D")
         dept = Department(did, name, faculty)
@@ -122,7 +117,6 @@ class UniversityService:
         dept = self.departments.remove(dept_id)
         return dept.name
 
-    # ── Statistics / Reports ───────────────────────────────────────────────
     def top_students(self, n: int = 5) -> list:
         return self.students.all_sorted_by_gpa(descending=True)[:n]
 
@@ -170,7 +164,6 @@ class UniversityService:
             })
         return transcript
 
-    # ── Polymorphism demo: print_all_persons ───────────────────────────────
     def print_all_persons(self) -> None:
         """
         Polymorphism in action: iterates a mixed collection of Person objects

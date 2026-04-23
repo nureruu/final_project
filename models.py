@@ -8,9 +8,6 @@ from datetime import date
 from typing import Optional
 
 
-# ─────────────────────────────────────────────
-# ABSTRACT BASE CLASS  (Abstraction requirement)
-# ─────────────────────────────────────────────
 class Person(ABC):
     """Abstract base class for all people in the university."""
 
@@ -22,7 +19,6 @@ class Person(ABC):
         self.__email = email
         self.__age = age
 
-    # ── Getters / Setters ──────────────────────────────────────────────────
     @property
     def person_id(self) -> str:
         return self.__person_id
@@ -71,7 +67,6 @@ class Person(ABC):
             raise ValueError("Age must be between 1 and 120.")
         self.__age = value
 
-    # ── Abstract method  (Abstraction requirement) ─────────────────────────
     @abstractmethod
     def get_role(self) -> str:
         """Return the role/title of this person."""
@@ -86,9 +81,6 @@ class Person(ABC):
         return self.get_info()
 
 
-# ─────────────────────────────────────────────
-# DERIVED CLASS 1 — Student  (Inheritance)
-# ─────────────────────────────────────────────
 class Student(Person):
     """Represents a university student."""
 
@@ -97,10 +89,9 @@ class Student(Person):
         super().__init__(student_id, first_name, last_name, email, age)
         self.__major = major
         self.__year = year
-        self.__enrolled_courses: list = []   # list of Course objects
-        self.__grades: dict = {}             # course_id -> grade (float)
+        self.__enrolled_courses: list = []   
+        self.__grades: dict = {}             
 
-    # ── Getters / Setters ──────────────────────────────────────────────────
     @property
     def major(self) -> str:
         return self.__major
@@ -155,7 +146,6 @@ class Student(Person):
             return 0.0
         return round(sum(self.__grades.values()) / len(self.__grades), 2)
 
-    # ── Polymorphism: override abstract methods ────────────────────────────
     def get_role(self) -> str:
         return "Student"
 
@@ -165,9 +155,6 @@ class Student(Person):
                 f"GPA: {self.gpa()} | Courses: {len(self.__enrolled_courses)}")
 
 
-# ─────────────────────────────────────────────
-# DERIVED CLASS 2 — Professor  (Inheritance)
-# ─────────────────────────────────────────────
 class Professor(Person):
     """Represents a university professor."""
 
@@ -207,7 +194,6 @@ class Professor(Person):
             raise ValueError("Course not found in professor's list.")
         self.__courses_taught.remove(course)
 
-    # ── Polymorphism: override abstract methods ────────────────────────────
     def get_role(self) -> str:
         return f"{self.__title}"
 
@@ -217,9 +203,6 @@ class Professor(Person):
                 f"Courses: {len(self.__courses_taught)}")
 
 
-# ─────────────────────────────────────────────
-# DERIVED CLASS 3 — Admin  (Inheritance)
-# ─────────────────────────────────────────────
 class Admin(Person):
     """Represents an administrative staff member."""
 
@@ -240,9 +223,6 @@ class Admin(Person):
                 f"Office: {self.__office}")
 
 
-# ─────────────────────────────────────────────
-# CLASS — Course
-# ─────────────────────────────────────────────
 class Course:
     """Represents a university course."""
 
@@ -254,7 +234,6 @@ class Course:
         self.__professor: Optional[Professor] = None
         self.__students: list = []
 
-    # ── Getters / Setters ──────────────────────────────────────────────────
     @property
     def course_id(self) -> str:
         return self.__course_id
@@ -316,9 +295,6 @@ class Course:
         return self.get_info()
 
 
-# ─────────────────────────────────────────────
-# CLASS — Department
-# ─────────────────────────────────────────────
 class Department:
     """Represents a university department."""
 

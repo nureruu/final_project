@@ -11,9 +11,8 @@ class StudentRepository:
     """Manages a collection of Student objects."""
 
     def __init__(self):
-        self.__students: list[Student] = []   # Collection (List)
+        self.__students: list[Student] = []  
 
-    # ── Add / Remove ───────────────────────────────────────────────────────
     def add(self, student: Student) -> None:
         if self.find_by_id(student.person_id):
             raise ValueError(f"Student with ID '{student.person_id}' already exists.")
@@ -26,7 +25,6 @@ class StudentRepository:
         self.__students.remove(student)
         return student
 
-    # ── Search / Filter ────────────────────────────────────────────────────
     def find_by_id(self, student_id: str) -> Optional[Student]:
         return next((s for s in self.__students if s.person_id == student_id), None)
 
@@ -40,14 +38,12 @@ class StudentRepository:
     def find_by_year(self, year: int) -> list[Student]:
         return [s for s in self.__students if s.year == year]
 
-    # ── Sort ───────────────────────────────────────────────────────────────
     def all_sorted_by_name(self) -> list[Student]:
         return sorted(self.__students, key=lambda s: s.last_name)
 
     def all_sorted_by_gpa(self, descending: bool = True) -> list[Student]:
         return sorted(self.__students, key=lambda s: s.gpa(), reverse=descending)
 
-    # ── Iterate ────────────────────────────────────────────────────────────
     def all(self) -> list[Student]:
         return list(self.__students)
 

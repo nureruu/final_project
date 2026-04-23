@@ -6,7 +6,6 @@ Covers: User Interface, Error Handling, Input Validation
 from service import UniversityService
 
 
-# ── Helper utilities ───────────────────────────────────────────────────────────
 
 def clear_line():
     print()
@@ -63,15 +62,12 @@ def pause():
     input("\n  Press Enter to continue...")
 
 
-# ── Main UI class ──────────────────────────────────────────────────────────────
-
 class ConsoleUI:
 
     def __init__(self):
         self.service = UniversityService()
         self._seed_demo_data()
 
-    # ── Demo data ──────────────────────────────────────────────────────────
     def _seed_demo_data(self):
         """Load sample data so the system isn't empty on first run."""
         # Departments
@@ -114,7 +110,6 @@ class ConsoleUI:
         self.service.assign_grade(s3.person_id, c3.course_id, 95.0)
         self.service.assign_grade(s4.person_id, c4.course_id, 80.0)
 
-    # ── Main loop ──────────────────────────────────────────────────────────
     def run(self):
         while True:
             header("UNIVERSITY MANAGEMENT SYSTEM")
@@ -138,7 +133,6 @@ class ConsoleUI:
             else:
                 warn("Invalid option. Please try again.")
 
-    # ── Students menu ──────────────────────────────────────────────────────
     def _menu_students(self):
         while True:
             header("STUDENTS")
@@ -281,7 +275,6 @@ class ConsoleUI:
             error(str(e))
         pause()
 
-    # ── Professors menu ────────────────────────────────────────────────────
     def _menu_professors(self):
         while True:
             header("PROFESSORS")
@@ -370,7 +363,6 @@ class ConsoleUI:
             error(str(e))
         pause()
 
-    # ── Courses menu ───────────────────────────────────────────────────────
     def _menu_courses(self):
         while True:
             header("COURSES")
@@ -464,7 +456,6 @@ class ConsoleUI:
             print(f"    • {s.full_name} (ID: {s.person_id})  Grade: {grade_str}")
         pause()
 
-    # ── Departments menu ───────────────────────────────────────────────────
     def _menu_departments(self):
         while True:
             header("DEPARTMENTS")
@@ -525,7 +516,6 @@ class ConsoleUI:
                 print(f"  {d.get_info()}")
         pause()
 
-    # ── Reports menu ───────────────────────────────────────────────────────
     def _menu_reports(self):
         while True:
             header("REPORTS & STATISTICS")
